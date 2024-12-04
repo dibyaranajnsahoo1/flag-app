@@ -8,22 +8,19 @@ const Flag = () => {
         fetchUrl();
     }, []);
 
-    const fetchUrl = async () => {
-        try {
-            const url = 'https://xcountries-backend.azurewebsites.net/all';
-            const res = await fetch(url);
+    const fetchUrl = () => {
+        const url = 'https://xcountries-backend.azurewebsites.net/all';
 
-            if (!res.ok) {
-                // Log an error if the response status is not OK (e.g., 404, 500)
-                throw new Error(`HTTP error! Status: ${res.status}`);
-            }
-
-            const data = await res.json();
-            setCountries(data);
-        } catch (error) {
-            // Log the error with additional context
-            console.error("Failed to fetch countries data:", error.message);
-        }
+        fetch(url)
+            .then((res) => {
+                if (!res.ok) {
+                    
+                    throw new Error(`HTTP error! Status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then((data) => {setCountries(data);})
+            .catch((error) => { console.error("Failed to fetch countries data:", error.message); });
     };
 
     return (
